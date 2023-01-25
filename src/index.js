@@ -22,18 +22,14 @@ refs.input.addEventListener("input", debounce(onSearch, DEBOUNCE_DELAY));
 
 
 function onSearch(e) {
-    refs.div.innerHTML = ''
-    refs.ul.innerHTML = ''
+    clearContainer()
 
     if (!e.target.value.trim()) {
     return;
   }
     countryApiService.query = e.target.value
     countryApiService.fetchCountries().then(countries => {
-      if (countries.length > 10) {
-        Notify.info(
-          '⚠️Too many matches found. Please enter a more specific name.'
-        );
+      if (countries.length > 10) {Notify.info('⚠️Too many matches found. Please enter a more specific name.');
         return;
       }
       appendMarkup(countries);
@@ -43,27 +39,31 @@ function onSearch(e) {
     });
 }
 
-    
-
-
 
 function appendMarkup(countries) {
-  console.log(countries.length)
-    if (countries.length >= 2) {
+  
+  if (countries.length >= 2) {
       
-    for (const countrie of countries) {
-      refs.ul.insertAdjacentHTML('afterbegin', countryListTpl(countrie)); 
-    }   
-  } 
+    for (const country of countries) {
+      refs.ul.insertAdjacentHTML('afterbegin', countryListTpl(country));
+    }
+  }
   
   if (countries.length === 1) {
 
-    for (const countrie of countries) {
-      refs.ul.insertAdjacentHTML('afterbegin', countryListTpl(countrie));
-      refs.div.innerHTML = countryTpl(countrie); 
+    for (const country of countries) {
+
+      if (country.name.common === "Russia") {
+        Notify.warning('Страна террорист.')
+      }
+      refs.ul.insertAdjacentHTML('afterbegin', countryListTpl(country));
+      refs.div.innerHTML = countryTpl(country);
     }
-              
+
   }
-    
 }
 
+function clearContainer() {
+  refs.div.innerHTML = ''
+  refs.ul.innerHTML = ''
+}
