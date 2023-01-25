@@ -2,16 +2,18 @@ import './css/styles.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import CountryApiService from './api/fetchCountries'
 
+const debounce = require('lodash.debounce');
+
 import countryTpl from './templates/country-tpl.hbs'
 import countryListTpl from './templates/country-list-tpl.hbs'
-const debounce = require('lodash.debounce');
+
 const DEBOUNCE_DELAY = 300;
 
 
 const refs = {
-    input: document.querySelector('#search-box'),
-    ul: document.querySelector('.country-list'), 
-    div: document.querySelector('.country-info'),
+  input: document.querySelector('#search-box'),
+  ul: document.querySelector('.country-list'), 
+  div: document.querySelector('.country-info'),
 }
 
 const countryApiService = new CountryApiService();
