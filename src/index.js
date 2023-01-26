@@ -27,8 +27,9 @@ function onSearch(e) {
     if (!e.target.value.trim()) {
     return;
   }
-    countryApiService.query = e.target.value
-    countryApiService.fetchCountries().then(countries => {
+      countryApiService.query = e.target.value.trim();
+  
+      countryApiService.fetchCountries().then(countries => {
       if (countries.length > 10) {Notify.info('⚠️Too many matches found. Please enter a more specific name.');
         return;
       }
@@ -54,7 +55,7 @@ function appendMarkup(countries) {
     for (const country of countries) {
 
       if (country.name.common === "Russia") {
-        Notify.warning('Страна террорист.')
+        Notify.warning('Страна террорист.');
       }
       refs.ul.insertAdjacentHTML('afterbegin', countryListTpl(country));
       refs.div.innerHTML = countryTpl(country);
@@ -64,6 +65,6 @@ function appendMarkup(countries) {
 }
 
 function clearContainer() {
-  refs.div.innerHTML = ''
-  refs.ul.innerHTML = ''
+  refs.div.innerHTML = '';
+  refs.ul.innerHTML = '';
 }
